@@ -1,0 +1,52 @@
+{
+    "Debug": false,
+    "Site": "OfficeOne",
+    "InfluxDB": {
+        "Host": "localhost",
+        "Port": 8086,
+        "DB": "userexperience",
+        "Measurement": "latencymeasures"
+    },
+    "Tests": {
+        "Internal": true,
+        "External": true,
+        "Proxy": true,
+        "SQL": true,
+        "Core": true
+    },
+    "Internal": {
+        "URL": "http://internaltestsite.local/download/testpage.html",
+        "StatusCode": 200
+    },
+    "External": {
+        "URL": "https://latencytestsite.somecompany.com/download/testpage.html",
+        "StatusCode": 200
+    },
+    "Proxy": {
+        "http": "http://10.1.2.3:3128",
+        "https": "https://10.1.2.3:3128"
+    },
+    "SQL": {
+        "URI": "Driver={ODBC Driver 17 for SQL Server};Server=SQLSERVER01\\INSTANCE1;Port=1433;Database=ProdDB;uid=sa;pwd=Pass$word1",
+        "Query": "SELECT COUNT(*) FROM BIGTABLE"
+    },
+    "Core": {
+        "extranet": {
+            "URL": "https://extranet.somecompany.com",
+            "StatusCode": 200
+        },
+        "intranet": {
+            "URL": "https://intranet.somecompany.com",
+            "StatusCode": 200
+        },
+        "exchange": {
+            "URL": "https://exchange.somecompany.com/owa/healthcheck.htm",
+            "StatusCode": 200,
+            "Test": "200 OK"
+        },
+        "sas": {
+            "URL": "https://sas.somecompany.com",
+            "StatusCode": 200
+        }
+    }
+}
