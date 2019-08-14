@@ -64,10 +64,29 @@ def sqllatencytest(config, results):
     '''Test latency of SQL server'''
     sql_start = time.time()
     try:
-        conn = pypyodbc.connect(config["SQL"]["URI"])
+        # this is horrible but i cannot find another way to build this string up
+        connstring = ""
+        connstring += "Driver={ODBC Driver 17 for SQL Server};Server="
+        connstring += config["SQL"]["Server"]
+        connstring += "\\"
+        connstring += config["SQL"]["Instance"]
+        connstring += ";"
+        connstring += "Port="
+        connstring += config["SQL"]["Port"]
+        connstring += ";"
+        connstring += "Database="
+        connstring += config["SQL"]["Database"]
+        connstring += ";"
+        connstring += "uid="
+        connstring += config["SQL"]["UID"]
+        connstring += ";"
+        connstring += "pwd="
+        connstring += config["SQL"]["PWD"]
+        connstring += ";"
+        conn = pypyodbc.connect(connstring)
         cursor = conn.cursor()
         cursor.execute(config["SQL"]["Query"])
-        if not cursor.fetchone() > 0:
+        if not cursor.fetchone()[0] > 1:
             raise
     except:
         results["fields"]["sql"] = 0.0
@@ -109,4 +128,4 @@ if __name__ == "__main__":
     resultarray.append(results)
     if config["Debug"]:
         print(json.dumps(resultarray))
-    postresults(config, json.dumps(resultarray))
+    postresults(config, resultarray)
